@@ -5,8 +5,8 @@ var historical_data= document.querySelector('.historical_data');
 var apiKey = "c0jn4vn48v6tjhjjqlkg";
 
 
-function newy(){
-    fetch('https://finnhub.io/api/v1/search?q='+input.value+'&token='+ apiKey)
+function news(){
+    fetch('https://finnhub.io/api/v1/company-news?symbol='+input.value+'&from=2020-04-30&to=2020-05-01&token='+ apiKey)
     .then(response => response.json())
     .then(data =>{
         console.log(data);
@@ -32,6 +32,6 @@ function financials(){
 }
 
 button.addEventListener('click', function(){
-    newy();
+    news();
     financials();
 })
