@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="HandheldFriendly" content="true"> 
+    <link rel="icon" href="./img/stonk.png">
+    <link rel="stylesheet" href="style.css">
+    <title>Stonks</title>
+</head>
+<body>
+    <header>
+        <p class="motivation">Go ahead...search for a stonk</p>
+        <div class="search_bar">
+            <div class="search_engine">
+                <input type="text" placeholder="Stock tick..." class="input_text">
+                <div class="suggestions">
+                    <ul>
+                        <li class="drop_list"></li>
+                    </ul>
+                </div>
+            </div>
+            <button type="submit" value="Search" class="submit"><img class="img" src="./img/glass.png" alt=""></button>
+        </div>
+    </header>
+    <main class = "main_container">
+        <div class="stonk_container">
+          <h1 class="ticker"></h1>
+          <div class="historical_data"></div>
+        </div>
+    </main>
+    <footer></footer>
+    <script src="script.js"></script>
+    <script src="styles.js"></script>
+</body>
+</html>
+
