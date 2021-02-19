@@ -6,6 +6,41 @@ var ticker= document.querySelector('.ticker');
 var historical_data= document.querySelector('.historical_data');
 var news_container=document.querySelector('.news_container');
 
+function financials(){
+    fetch('https://finnhub.io/api/v1/stock/metric?symbol='+ input.value +'&metric=all&token='+ apiKey)
+    .then(response => response.json())
+    .then(data =>{
+        ticker.innerHTML=data.symbol;
+        historical_data.innerHTML='';
+        
+        var entries = Object.entries(data.metric);
+        var key= Object.keys(data.metric);
+        var value = Object.values(data.metric);
+        
+        for (var i = 0; i < entries.length; i++){
+            historical_data.innerHTML += "<p>"+key[i]+": "+value[i]+"</p></br>";
+        }
+    })
+    .catch(err => alert("Enter valid ticker..."));
+}
+
+function graph(){
+    // fetch('')
+    // .then(response => response.json())
+    // .then(data =>{})
+    
+    JSC.chart("graph_container", {
+        series: [
+            { 
+                points: [
+                    { x: "A", y: 10 }, 
+                    { x: "B", y: 5 }
+                ] 
+            }
+        ]
+    });
+}
+
 function news(){
     fetch('https://finnhub.io/api/v1/company-news?symbol='+input.value+'&from=2021-01-01&to=2022-01-01&token='+ apiKey)
     .then(response => response.json())
@@ -51,31 +86,10 @@ function converter(time){
     return convdataTime;
 }
 
-function financials(){
-    fetch('https://finnhub.io/api/v1/stock/metric?symbol='+ input.value +'&metric=all&token='+ apiKey)
-    .then(response => response.json())
-    .then(data =>{
-        ticker.innerHTML=data.symbol;
-        historical_data.innerHTML='';
-        
-        var entries = Object.entries(data.metric);
-        var key= Object.keys(data.metric);
-        var value = Object.values(data.metric);
-        
-        for (var i = 0; i < entries.length; i++){
-            historical_data.innerHTML += "<p>"+key[i]+": "+value[i]+"</p></br>";
-        }
-    })
-    .catch(err => alert("Enter valid ticker..."));
-}
-
-// function graph(){
-
-// }
-
 button.addEventListener('click', function(){
-    news();
     financials();
+    graph();
+    news();
 })
 
 
