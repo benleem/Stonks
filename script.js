@@ -25,20 +25,60 @@ function financials(){
 }
 
 function graph(){
-    // fetch('')
-    // .then(response => response.json())
-    // .then(data =>{})
-    
-    JSC.chart("graph_container", {
-        series: [
-            { 
-                points: [
-                    { x: "A", y: 10 }, 
-                    { x: "B", y: 5 }
-                ] 
+    fetch('https://finnhub.io/api/v1/stock/candle?symbol='+input.value+'&resolution=D&from=1605543327&to=1630551661&token='+apiKey)
+    .then(response => response.json())
+    .then(info =>{
+        var datetime= Object.values(info.t);
+        var open=Object.values(info.o);
+        
+        const ctx = document.getElementById('graph').getContext('2d');
+        xlabels=[];
+        yvalues=[];
+        if(window.chart != undefined){
+            window.chart.destroy();
+        }
+        window.chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: xlabels,
+                datasets: [{
+                    label: 'Price per share',
+                    data: yvalues,
+                    backgroundColor: [
+                        'rgba(12, 92, 196, 0.3)'
+                    ],
+                    borderColor: [
+                        'rgba(12, 92, 196, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips:{
+                    intersect:'true',
+                    mode:'x'
+                },
+                responsive: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                }
             }
-        ]
-    });
+        });
+        
+        for (var i = 0; i < datetime.length; i++){
+            var time= datetime[i];
+            time=converter(time);
+            xlabels.push(time);
+            
+            yvalues.push(open[i]);
+            chart.update();
+        }
+    })
 }
 
 function news(){
@@ -47,16 +87,13 @@ function news(){
     .then(data =>{
         var entries=Object.entries(data);
         var values=Object.values(data);
-        console.log(values);
         news_container.innerHTML="";
 
-        for (var i = 0; i < 30; i++){
+        for (var i = 0; i < entries.length; i++){
             var headline=document.createElement('a');
             headline.innerHTML+=values[i].headline;
             headline.href+=values[i].url;
             news_container.appendChild(headline);
-
-            console.log(headline);
 
             var datetime=document.createElement('h3');
             var time = values[i].datetime;
@@ -88,8 +125,8 @@ function converter(time){
 
 button.addEventListener('click', function(){
     financials();
-    graph();
     news();
+    graph();
 })
 
 

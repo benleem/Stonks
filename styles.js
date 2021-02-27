@@ -6,6 +6,3 @@ button.addEventListener('click', function(){
     hiddenStyle.style.backgroundColor='rgb(64, 64, 64)';
     hiddenStyle.style.overflowY='auto';
 })
-
-
-
